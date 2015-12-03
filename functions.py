@@ -29,24 +29,29 @@ def find_source_nodes(matrix):
 			j += 1	
 		return sources
 
+
 number = 1
+def dfs(matrix):
+	sources_list = find_source_nodes(matrix)
+	pre_order = {}
+	post_order = {}
+	def visit(i):
+		global number
+		if i not in pre_order:
+			pre_order[i] = number
+			number += 1
+			for j in range(0, len(matrix)):
+				if(matrix[i][j] == 1):
+					visit(j)
+			post_order[i] = number
+			number += 1
+	for n in sources_list:
+		visit(n)
+	return [pre_order, post_order]
+	
 def topological_sort(matrix):
-	if len(matrix) > 0 and len(matrix[0]) > 0 and len(matrix) == len(matrix[0]):
-		sources_list = find_source_nodes(matrix)
-		pre_order = {}
-		post_order = {}
-		def visit(i):
-			global number
-			if i not in pre_order:
-				pre_order[i] = number
-				number += 1
-				for j in range(0, len(matrix)):
-					if matrix[i][j] == 1:
-						visit(j)
-				post_order[i] = number
-				number += 1
-		for n in sources_list:
-			visit(n)
+	if(len(matrix) > 0 and len(matrix[0]) > 0 and len(matrix) == len(matrix[0])):
+		post_order = dfs(matrix)[1]
 		rev = {}
 		for item in post_order:
 			rev[post_order[item]] = item
@@ -55,7 +60,8 @@ def topological_sort(matrix):
 		top_sort = []
 		for tup in sorted_post_order:
 			top_sort += [tup[1]]
+		print(top_sort)
 		return top_sort
 
-# topological_sort([[0, 0, 1], [0, 0, 0], [0, 0, 0]])
+topological_sort([[0, 0, 1], [0, 0, 0], [0, 0, 0]])
 							
