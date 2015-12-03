@@ -31,7 +31,7 @@ def find_source_nodes(matrix):
 
 number = 1
 def topological_sort(matrix):
-	if(len(matrix) > 0 and len(matrix[0] > 0 and len(matrix) == len(matrix[0])):
+	if(len(matrix) > 0 and len(matrix[0]) > 0 and len(matrix) == len(matrix[0])):
 		sources_list = find_source_nodes(matrix)
 		pre_order = {}
 		post_order = {}
