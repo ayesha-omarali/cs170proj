@@ -94,15 +94,55 @@ def bellman_ford(graph, source):
 
     return d, p
 
+def count_forward_paths(lst, matrix):
+	count = 0
+	i = 0
+	while(i < len(lst)):
+		j = i + 1
+		while(j < len(lst)):
+			count += matrix[lst[i]][lst[j]]
+			j += 1
+		i += 1
+	return count
+
+def all_orderings(lst):
+	if(len(lst) <= 1):
+		return [lst]
+	else:
+		all_lsts = []
+		for i in range(0, len(lst)):
+			a = lst[:i] + lst[(i + 1):]
+			b = lst[i]
+			c = all_orderings(a)
+			for sublst in c:
+				all_lsts = all_lsts + [[b] + sublst]
+		return all_lsts
+
+def brute_force_paths(lst, matrix):
+	if(len(lst) <= 8):
+		a_o = all_orderings(lst)
+		max_count = 0
+		max_ordering = a_o[0]
+		for ordering in a_o:
+			count = count_forward_paths(ordering, matrix)
+			if(count > max_count):
+				max_count = count
+				max_ordering = ordering
+		return max_count, ordering
 
 
-topological_sort([[0, 0, 1], [0, 0, 0], [0, 0, 0]])
-graph = [
-	[0, 1, 1, 1, 0],
-	[0, 0, 1, 0, 0],
-	[0, 0, 0, 1, 0],
-	[0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0]
-]
-print(bellman_ford(graph, 0))
+
+if __name__ == '__main__':
+	# topological_sort([[0, 0, 1], [0, 0, 0], [0, 0, 0]])
+	# graph = [
+	# 	[0, 1, 1, 1, 0],
+	# 	[0, 0, 1, 0, 0],
+	# 	[0, 0, 0, 1, 0],
+	# 	[0, 0, 0, 0, 1],
+	# 	[1, 0, 0, 0, 0]
+	# ]
+	# print(bellman_ford(graph, 0))
+	# print(all_orderings([1,2, 3, 4, 5, 6, 7, 8]))
+	print(brute_force_paths([6,5,4,3,2,1,0], [[0, 1, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0]]))
+
 							
