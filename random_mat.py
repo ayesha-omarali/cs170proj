@@ -1,3 +1,4 @@
+#this function is now useless. It was used to build our instances
 import random
 def random_num():
 	i = random.randint(1, 4)

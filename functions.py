@@ -1,5 +1,7 @@
 import operator
 
+#Given a matrix, the function returns the node ids of all of the source node 
+#(or no id if no source node exists i.e. in a cycle)
 def find_source_nodes(matrix):
 	"""
 	>>> find_source_nodes([])
@@ -29,7 +31,7 @@ def find_source_nodes(matrix):
 			j += 1	
 		return sources
 
-
+#This does dfs of an inputted graph. The graph must be a DAG. 
 number = 1
 def dfs(matrix):
 	sources_list = find_source_nodes(matrix)
@@ -49,6 +51,7 @@ def dfs(matrix):
 		visit(n)
 	return [pre_order, post_order]
 	
+#This returns a topological order sort of a DAG, and only a DAG
 def topological_sort(matrix):
 	if(len(matrix) > 0 and len(matrix[0]) > 0 and len(matrix) == len(matrix[0])):
 		post_order = dfs(matrix)[1]
@@ -105,19 +108,20 @@ def count_forward_paths(lst, matrix):
 		i += 1
 	return count
 
+#gets all possible orderings of a particular list. It is slow for 8 nodes and above. s
 def all_orderings(lst):
 	if(len(lst) <= 1):
 		return [lst]
 	else:
 		all_lsts = []
 		for i in range(0, len(lst)):
-			a = lst[:i] + lst[(i + 1):]
 			b = lst[i]
 			c = all_orderings(a)
 			for sublst in c:
 				all_lsts = all_lsts + [[b] + sublst]
 		return all_lsts
 
+# Works efficiently for up to 7 vertices
 def brute_force_paths(lst, matrix):
 	if(len(lst) <= 8):
 		a_o = all_orderings(lst)
@@ -130,6 +134,7 @@ def brute_force_paths(lst, matrix):
 				max_ordering = ordering
 		return max_count, ordering
 
+def efficient_cycle_analysis_49(lst, matrix):
 
 
 if __name__ == '__main__':

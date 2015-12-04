@@ -1,3 +1,4 @@
+#this function reads the file into a matrix
 def read_matrix(filename):
     f = open(filename, 'r')
     matrix = f.read().splitlines()
