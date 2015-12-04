@@ -1,4 +1,5 @@
 import operator
+import itertools
 
 #Given a matrix, the function returns the node ids of all of the source node 
 #(or no id if no source node exists i.e. in a cycle)
@@ -108,13 +109,21 @@ def count_forward_paths(lst, matrix):
 		i += 1
 	return count
 
+#
+def flatten(lst_of_lsts):
+	ret = []
+	for lst in lst_of_lsts:
+		ret += lst
+	return ret
+
 #gets all possible orderings of a particular list. It is slow for 8 nodes and above. s
 def all_orderings(lst):
-	if(len(lst) <= 1):
+	if len(lst) <= 1:
 		return [lst]
 	else:
 		all_lsts = []
 		for i in range(0, len(lst)):
+			a = lst[:i] + lst[(i+1):]
 			b = lst[i]
 			c = all_orderings(a)
 			for sublst in c:
@@ -123,18 +132,71 @@ def all_orderings(lst):
 
 # Works efficiently for up to 7 vertices
 def brute_force_paths(lst, matrix):
-	if(len(lst) <= 8):
+	if len(lst) <= 8:
 		a_o = all_orderings(lst)
 		max_count = 0
 		max_ordering = a_o[0]
 		for ordering in a_o:
 			count = count_forward_paths(ordering, matrix)
-			if(count > max_count):
+			if count > max_count:
 				max_count = count
 				max_ordering = ordering
 		return max_count, ordering
 
+#gives an approximation of the most efficient paths
+#for lists of vertex orderings from sizes 7 to 49
 def efficient_cycle_analysis_49(lst, matrix):
+	#the first step is splitting up your original list into a bunch of lists of size 7
+	lst_of_lsts = []
+	i = 0
+	while i < len(lst):
+		lst_of_lsts.append(list(lst[i:(i + 7)]))
+		i += 7
+	#next we are going to find the optimal ordering for each sublist of size 7. 
+	i = 0
+	while i < len(lst_of_lsts):
+		lst_of_lsts[i] = brute_force_paths(lst_of_lsts[i], matrix)
+		i += 1
+	#now, we will abstract away the groups of 7, and do all 7! orderings of our lists 
+	j = 0
+	orders = all_orderings(lst_of_lsts)
+	max_ordering = flatten(orders[0])
+	max_count = 0
+	for order in orders:
+		l = count_forward_paths(flatten(order), matrix)
+		if l > max_count:
+			max_count = l
+			max_ordering = flatten(order)
+	return max_ordering
+
+def efficient_cycle_analysis(lst, matrix):
+	if len(lst):
+		return efficient_path_analysis(lst, matrix)
+	else:
+		lst_of_lsts = []
+		i = 0
+		while i < len(lst):
+			lst_of_lsts.append(list(lst[i:(i + 49)]))
+			i += 49
+		i = 0
+		while i < len(lst_of_lsts):
+			lst_of_lsts[i] = brute_force_paths(lst_of_lsts[i], matrix)
+			i += 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
@@ -148,6 +210,7 @@ if __name__ == '__main__':
 	# ]
 	# print(bellman_ford(graph, 0))
 	# print(all_orderings([1,2, 3, 4, 5, 6, 7, 8]))
-	print(brute_force_paths([6,5,4,3,2,1,0], [[0, 1, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0]]))
-
+	# print(brute_force_paths([6,5,4,3,2,1,0], [[0, 1, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0]]))
+	print(all_orderings_flatten([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11]]))
+	# print(efficient_cycle_analysis_49([0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], [[0, 0, 0, 1, 1, 0, 0], [0, 1, 0, 1, 1, 0, 1]]))
 							
