@@ -238,7 +238,14 @@ def efficient_cycle_analysis_49(lst, matrix):
 			max_count = l
 			max_ordering = flatten(order)
 
-	print(max_count)
+	reverse_ordering = list(max_ordering)
+	reverse_ordering.reverse()
+	l = count_forward_paths(reverse_ordering, matrix)
+
+	#check if the reverse has a better ordering
+	if l > max_count:
+		return reverse_ordering
+
 	return max_ordering
 
 
@@ -273,6 +280,14 @@ def efficient_cycle_analysis(lst, matrix):
 				max_count = l 
 				max_ordering = flatten(order)
 
+		reverse_ordering = list(max_ordering)
+		reverse_ordering.reverse()
+		l = count_forward_paths(reverse_ordering, matrix)
+
+		#check if the reverse has a better ordering
+		if l > max_count:
+			return reverse_ordering
+			
 		return max_ordering
 
 							
