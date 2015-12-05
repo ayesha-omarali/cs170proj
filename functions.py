@@ -99,11 +99,15 @@ def bellman_ford(graph, source):
     return d, p
 
 def count_forward_paths(lst, matrix):
+	# print("LIST BELOW")
+	# print(lst)
 	count = 0
 	i = 0
 	while(i < len(lst)):
 		j = i + 1
 		while(j < len(lst)):
+			# print(lst[i])
+			# print(lst[j])
 			count += matrix[lst[i]][lst[j]]
 			j += 1
 		i += 1
@@ -141,7 +145,7 @@ def brute_force_paths(lst, matrix):
 			if count > max_count:
 				max_count = count
 				max_ordering = ordering
-		return max_count, ordering
+		return [max_count, max_ordering]
 
 #gives an approximation of the most efficient paths
 #for lists of vertex orderings from sizes 7 to 49
@@ -155,22 +159,27 @@ def efficient_cycle_analysis_49(lst, matrix):
 	#next we are going to find the optimal ordering for each sublist of size 7. 
 	i = 0
 	while i < len(lst_of_lsts):
-		lst_of_lsts[i] = brute_force_paths(lst_of_lsts[i], matrix)
+		a = brute_force_paths(lst_of_lsts[i], matrix)
+		lst_of_lsts[i] = a[1]
 		i += 1
 	#now, we will abstract away the groups of 7, and do all 7! orderings of our lists 
+	# print(lst_of_lsts)
 	j = 0
 	orders = all_orderings(lst_of_lsts)
 	max_ordering = flatten(orders[0])
 	max_count = 0
+	# print(orders)
 	for order in orders:
 		l = count_forward_paths(flatten(order), matrix)
 		if l > max_count:
 			max_count = l
 			max_ordering = flatten(order)
+
+	print(max_count)
 	return max_ordering
 
 def efficient_cycle_analysis(lst, matrix):
-	if len(lst):
+	if len(lst) < 50:
 		return efficient_path_analysis(lst, matrix)
 	else:
 		lst_of_lsts = []
@@ -193,35 +202,4 @@ def efficient_cycle_analysis(lst, matrix):
 				max_ordering = flatten(order)
 		return max_ordering
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-	# topological_sort([[0, 0, 1], [0, 0, 0], [0, 0, 0]])
-	# graph = [
-	# 	[0, 1, 1, 1, 0],
-	# 	[0, 0, 1, 0, 0],
-	# 	[0, 0, 0, 1, 0],
-	# 	[0, 0, 0, 0, 1],
-	# 	[1, 0, 0, 0, 0]
-	# ]
-	# print(bellman_ford(graph, 0))
-	# print(all_orderings([1,2, 3, 4, 5, 6, 7, 8]))
-	# print(brute_force_paths([6,5,4,3,2,1,0], [[0, 1, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0]]))
-	print(all_orderings_flatten([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11]]))
-	# print(efficient_cycle_analysis_49([0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], [[0, 0, 0, 1, 1, 0, 0], [0, 1, 0, 1, 1, 0, 1]]))
 							
