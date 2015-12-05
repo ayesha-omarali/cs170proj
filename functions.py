@@ -188,7 +188,7 @@ def efficient_cycle_analysis(lst, matrix):
 		max_count = 0
 		for order in orders:
 			l = count_forward_paths(flatten(order), matrix)
-			if l > max_count
+			if l > max_count:
 				max_count = l 
 				max_ordering = flatten(order)
 		return max_ordering

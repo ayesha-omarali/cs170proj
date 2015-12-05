@@ -8,5 +8,5 @@ def read_matrix(filename):
        last = len(i)-1
        if i[last] == ' ':
            i = i[:-1]
-       t.append(map(int, i.split(' ')))
+       t.append(list(map(int, i.split(' '))))
     return t
