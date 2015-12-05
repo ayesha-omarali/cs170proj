@@ -6,20 +6,15 @@ class SCCMaker:
 
     # returns a new matrix with all pointers pointing from j to i
     # instead of i to j
-<<<<<<< HEAD
     def flippedGraph(self):
     	toReturn = [[0 for j in self.Matrix[i]] for i in self.Matrix] # Matrix of zeroes
-=======
 
         toReturn = [[0 for j in i] for i in self.Matrix] # Matrix of zeroes
->>>>>>> refs/remotes/origin/master
-
         for i in range(len(self.Matrix)):
             for j in range(len(self.Matrix[i])):
                 if self.Matrix[i][j] == 1: 
                     toReturn[j][i] = 1
 
-<<<<<<< HEAD
     	return toReturn
     
     #legal Move from i to j 
