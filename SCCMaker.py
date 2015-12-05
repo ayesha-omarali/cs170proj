@@ -4,11 +4,9 @@ class SCCMaker:
         self.Matrix = Matrix
 
 
-
-    def flippedGraph(self):
     # returns a new matrix with all pointers pointing from j to i
     # instead of i to j
-
+    def flippedGraph(self):
     	toReturn = [[0 for j in self.Matrix[i]] for i in self.Matrix] # Matrix of zeroes
 
     	for i in range(len(self.Matrix)):
@@ -17,18 +15,21 @@ class SCCMaker:
     				toReturn[j][i] = 1
 
     	return toReturn
-
-    def legalMove(self, i, j): 
+    
     #legal Move from i to j 
+    def legalMove(self, i, j): 
     	if self.Matrix[i][j] == 1: 
     		return True
+
     	return False
 
    	def getAllLegalMoves(self, i):
    		possibleMoves = []
    		for j in range(len(self.Matrix[i])):
+
    			if self.legalMove(i, j):
    				possibleMoves.append(j)
+
    		return possibleMoves
 
    	def makePostOrder(self):
@@ -60,12 +61,16 @@ class SCCMaker:
    		postOrder = self.makePostOrder()
    		flipped = SCCMaker(self.flippedGraph())
 
+
+      ##SHOULD IMPLEMENT DFS FROM FUNCTIONS ALREADY WRITTEN
    		def DFS(v, lst):
    			nonlocal postOrder
 
    			postOrder.remove(v)
    			for move in flipped.getAllLegalMoves(v):
+
    				if move in postOrder:
    					lst.append(DFS(move, lst))
+
    			return lst
 
