@@ -4,9 +4,9 @@ import sys
 # if you have errors, make sure you double check our input and output format 
 def main(argv):
 	if len(argv) != 2:
-		print "Usage: python scorer_single.py [path_to_instance] [path_to_answer]"
+		print("Usage: python scorer_single.py [path_to_instance] [path_to_answer]")
 		return
-	print processTest(argv[0], argv[1])
+	print(processTest(argv[0], argv[1]))
 
 def processTest(inst, sol):
 	fin = open(inst, "r")
