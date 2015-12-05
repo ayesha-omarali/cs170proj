@@ -145,7 +145,7 @@ def brute_force_paths(lst, matrix):
 			if count > max_count:
 				max_count = count
 				max_ordering = ordering
-		return max_count, ordering
+		return [max_count, max_ordering]
 
 #gives an approximation of the most efficient paths
 #for lists of vertex orderings from sizes 7 to 49
@@ -160,11 +160,10 @@ def efficient_cycle_analysis_49(lst, matrix):
 	i = 0
 	while i < len(lst_of_lsts):
 		a = brute_force_paths(lst_of_lsts[i], matrix)
-		print(a)
 		lst_of_lsts[i] = a[1]
 		i += 1
 	#now, we will abstract away the groups of 7, and do all 7! orderings of our lists 
-	print(lst_of_lsts)
+	# print(lst_of_lsts)
 	j = 0
 	orders = all_orderings(lst_of_lsts)
 	max_ordering = flatten(orders[0])
@@ -180,7 +179,7 @@ def efficient_cycle_analysis_49(lst, matrix):
 	return max_ordering
 
 def efficient_cycle_analysis(lst, matrix):
-	if len(lst):
+	if len(lst) < 50:
 		return efficient_path_analysis(lst, matrix)
 	else:
 		lst_of_lsts = []
