@@ -180,8 +180,19 @@ def efficient_cycle_analysis(lst, matrix):
 			i += 49
 		i = 0
 		while i < len(lst_of_lsts):
-			lst_of_lsts[i] = brute_force_paths(lst_of_lsts[i], matrix)
+			lst_of_lsts[i] = efficient_cycle_analysis_49(lst_of_lsts[i], matrix)
 			i += 1
+		i = 0
+		orders = all_orderings(lst_of_lists, matrix)
+		max_ordering = flatten(orders[0])
+		max_count = 0
+		for order in orders:
+			l = count_forward_paths(flatten(order), matrix)
+			if l > max_count
+				max_count = l 
+				max_ordering = flatten(order)
+		return max_ordering
+
 
 
 
