@@ -1,3 +1,9 @@
+def testSCCMaker():
+    matrix = [[0, 1, 0, 1, 0, 0], [1, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1], 
+    [0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0], [0, 1, 0, 0, 0, 0]]
+    workableStuff = SCCMaker(matrix)
+    print(workableStuff.numCycles())
+
 class SCCMaker:
 
     def __init__(self, Matrix):
@@ -78,3 +84,20 @@ class SCCMaker:
         print(len(sccList))
         print(sccList)
         return sccList
+
+    def numCycles(self):
+    	order = list(range(len(self.Matrix)))
+    	return self.cycleHelper(order[0], [], order)
+
+    def cycleHelper(self, v, lst, queue):
+            queue.remove(v)
+            lst.append(v)
+            counter = 0
+            for move in self.getAllLegalMoves(v):
+                if move in lst: 
+                    counter += 1
+                if move in queue:
+                    counter += self.cycleHelper(move, lst, queue)
+            return counter
+
+
