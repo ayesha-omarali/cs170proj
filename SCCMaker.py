@@ -75,6 +75,6 @@ class SCCMaker:
         for v in postOrder:
             dfslist = DFS(v, [])
             sccList.append(dfslist)
-        print(len(sccList))
-        print(sccList)
+        #print(len(sccList))
+        #print(sccList)
         return sccList

@@ -86,7 +86,7 @@ def topological_sort(matrix):
 		for tup in sorted_post_order:
 			top_sort += [tup[1]]
 		
-		print(top_sort)
+		#print(top_sort)
 		return top_sort
 
 
@@ -244,7 +244,7 @@ def efficient_cycle_analysis_36(lst, matrix):
 	#check if the reverse has a better ordering
 	if l > max_count:
 		return reverse_ordering
-	print(str(max_ordering) + ", " + str(max_count))
+	#print(str(max_ordering) + ", " + str(max_count))
 	return [max_count, max_ordering]
 
 
@@ -254,7 +254,7 @@ def efficient_cycle_analysis_36(lst, matrix):
 
 def efficient_cycle_analysis(lst, matrix):
 	if len(lst) <= 36:
-		return efficient_path_analysis(lst, matrix)
+		return efficient_cycle_analysis_36(lst, matrix)
 	
 	else:
 		lst_of_lsts = []
@@ -287,16 +287,16 @@ def efficient_cycle_analysis(lst, matrix):
 		if l > max_count:
 			return reverse_ordering
 
-		print(str(max_ordering) + ", " + str(max_count))
+		#print(str(max_ordering) + ", " + str(max_count))
 		return [max_count, max_ordering]
 
 def efficient_cycle_main(lst, matrix):
 	s = list(lst)
 	max_ordering = lst
 	max_count = 0
-	for(i in range(0, 10*len(lst))):
+	for i in range(0, 10*len(lst)):
 		a = efficient_cycle_analysis(s)
-		if(a[0] > max_count):
+		if a[0] > max_count:
 			max_ordering = a[1]
 			max_count = a[0]
 		random.shuffle(s)
