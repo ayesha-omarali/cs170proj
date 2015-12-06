@@ -4,7 +4,9 @@ def solve(filename):
     if filename.endswith('.in'):
         print(filename)
         mat = utils.read_matrix(filename)
-        ordering = [x + 1 for x in functions.efficient_cycle_main(range(0, len(mat)), mat)[1]]
+        ordering_intermediate = functions.efficient_cycle_main(range(0, len(mat)), mat)[1]
+        ordering = [x + 1 for x in ordering_intermediate]
+        print(ordering)
         solutionlist= ordering
         # filenum = file[:-3]
         # solname ='solcheck'
@@ -14,13 +16,14 @@ def solve(filename):
         # sol.write(a)
         # sol.close()
 
+        print("im 1")
         filenum = filename[:-3]
         randlist = range(1, len(mat)+1)
                 # Try random list 100 times
         top_score = -1
         top_score_sol=''
         randsol=[]
-        for i in range(150):
+        for i in range(2000):
             randsol=random.sample(randlist,len(randlist))
             #reverselist = list(reversed(randlist))
             solname='solcheck'
@@ -30,21 +33,35 @@ def solve(filename):
             sol.close()
             scorestring = scorer_single.processTest(filename, solname)
             score=float(scorestring[18:])
-            if score<0.2:
-                randsol=list(reversed(randsol))
-                score=1-score
-                stringsol = ' '.join(map(str,randsol))
+            # if score<0.2:
+            #     randsol=list(reversed(randsol))
+            #     score=1-score
+            #     stringsol = ' '.join(map(str,randsol))
             if score>top_score:
                 top_score=score
                 top_score_sol = stringsol
-            # Save time
-            if score>0.92:
-                break
+            # # Save time
+            # if score>0.92:
+            #     break
+
+            randomsol_reverse = list(reversed(randsol))
+            sol = open(solname, 'wb')
+            stringsol_reverse = ' '.join(map(str,randomsol_reverse))
+            sol.write(stringsol_reverse)
+            sol.close()
+
+            reverse_scorestring = scorer_single.processTest(filename, solname)
+            reverse_score=float(scorestring[18:])
+
+            if reverse_score > top_score:
+                top_score > reverse_score
+        print("im 3")
         solname='solcheck'
         sol = open(solname, 'wb')
         stringsol = ' '.join(map(str,solutionlist))
         sol.write(stringsol.encode('utf-8'))
         sol.close()
+        print("checkpoint 5")
         scorestring = scorer_single.processTest(filename, solname) #messes up at this line
         score=float(scorestring[18:])
         if(score > top_score):
@@ -70,7 +87,7 @@ def solutions():
     notopened = []
     bestfiles = ['0']*len(files)
     bestfiles_score = ['0']*len(files)
-    for f in files:
+    for f in ['101.in', '103.in', '108.in', '151.in', '169.in', '173.in', '196.in', '205.in', '218.in', '257.in', '272.in', '278.in', '280.in', '303.in', '324.in', '329.in', '339.in', '346.in', '358.in', '397.in', '409.in', '415.in', '421.in', '442.in', '533.in', '569.in', '571.in', '583.in', '613.in', '621.in', '66.in']:
         # f = str(i) + '.in'
         if f.endswith('.in'):
             try:
