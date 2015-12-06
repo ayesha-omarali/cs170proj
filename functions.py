@@ -1,5 +1,4 @@
-import operator
-import itertools
+import operator, itertools, random
 
 #Finds nodes with no incoming edges, but outgoing edges
 #aka source nodes!
@@ -208,14 +207,14 @@ def brute_force_paths(lst, matrix):
 
 #gives an approximation of the most efficient paths
 #for lists of vertex orderings from sizes 7 to 49
-def efficient_cycle_analysis_49(lst, matrix):
+def efficient_cycle_analysis_36(lst, matrix):
 	#the first step is splitting up your original list into a bunch of lists of size 7
 	lst_of_lsts = []
 	
 	i = 0
 	while i < len(lst):
 		lst_of_lsts.append(list(lst[i:(i + 7)]))
-		i += 7
+		i += 6
 	
 	#next we are going to find the optimal ordering for each sublist of size 7. 
 	i = 0
@@ -246,7 +245,7 @@ def efficient_cycle_analysis_49(lst, matrix):
 	if l > max_count:
 		return reverse_ordering
 	print(str(max_ordering) + ", " + str(max_count))
-	return max_ordering
+	return [max_count, max_ordering]
 
 
 
@@ -254,7 +253,7 @@ def efficient_cycle_analysis_49(lst, matrix):
 
 
 def efficient_cycle_analysis(lst, matrix):
-	if len(lst) < 50:
+	if len(lst) <= 36:
 		return efficient_path_analysis(lst, matrix)
 	
 	else:
@@ -262,12 +261,12 @@ def efficient_cycle_analysis(lst, matrix):
 		i = 0
 		
 		while i < len(lst):
-			lst_of_lsts.append(list(lst[i:(i + 49)]))
-			i += 49
+			lst_of_lsts.append(list(lst[i:(i + 36)]))
+			i += 36
 		
 		i = 0
 		while i < len(lst_of_lsts):
-			lst_of_lsts[i] = efficient_cycle_analysis_49(lst_of_lsts[i], matrix)
+			lst_of_lsts[i] = efficient_cycle_analysis_36(lst_of_lsts[i], matrix)[1]
 			i += 1
 		
 		i = 0
@@ -287,8 +286,22 @@ def efficient_cycle_analysis(lst, matrix):
 		#check if the reverse has a better ordering
 		if l > max_count:
 			return reverse_ordering
-			
+
 		print(str(max_ordering) + ", " + str(max_count))
-		return max_ordering
+		return [max_count, max_ordering]
+
+def efficient_cycle_main(lst, matrix):
+	s = list(lst)
+	max_ordering = lst
+	max_count = 0
+	for(i in range(0, 10*len(lst))):
+		a = efficient_cycle_analysis(s)
+		if(a[0] > max_count):
+			max_ordering = a[1]
+			max_count = a[0]
+		random.shuffle(s)
+	return [max_count, max_ordering]
+
+
 
 							

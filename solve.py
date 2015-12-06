@@ -13,14 +13,14 @@ def solve(file):
             sorted = sccDag
         for s in sorted:
             print(s)
-            ordering = functions.efficient_cycle_analysis(s, mat)
+            ordering = functions.efficient_cycle_analysis(s, mat)[1]
             print(ordering)
             solutionlist.extend(ordering)
         filenum = file[:-3]
         solname='solcheck'
         sol = open(solname, 'wb')
         stringsol = ' '.join(map(str,solutionlist))
-        sol.write(input(stringsol))
+        sol.write(stringsol.encode('utf-8'))
         sol.close()
         scorestring = scorer_single.processTest(file, solname)
         print(scorestring)
