@@ -154,6 +154,12 @@ def count_forward_paths(lst, matrix):
 	return count
 
 
+def score(lst, matrix):
+	e = 0
+	for i in range(len(matrix)):
+		e += sum(matrix[i])
+	fwd_paths = count_forward_paths(lst, matrix)
+	return (float(fwd_paths)/float(e))
 
 
 
@@ -188,6 +194,10 @@ def all_orderings(lst):
 				all_lsts = all_lsts + [[b] + sublst]
 	
 		return all_lsts
+
+
+ 
+
 
 # Works efficiently for up to 7 vertices
 def brute_force_paths(lst, matrix):

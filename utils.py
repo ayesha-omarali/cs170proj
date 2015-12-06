@@ -18,4 +18,4 @@ def read_score(filename):
   y = sum(new_lst)/(len(new_lst))
   return y
 
-# print(read_score('scoreapollo.out'))
+print(read_score('scoreapollo.out'))
