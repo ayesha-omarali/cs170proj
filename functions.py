@@ -207,14 +207,14 @@ def brute_force_paths(lst, matrix):
 
 #gives an approximation of the most efficient paths
 #for lists of vertex orderings from sizes 7 to 49
-def efficient_cycle_analysis_36(lst, matrix):
+def efficient_cycle_analysis_25(lst, matrix):
 	#the first step is splitting up your original list into a bunch of lists of size 7
 	lst_of_lsts = []
 	
 	i = 0
 	while i < len(lst):
-		lst_of_lsts.append(list(lst[i:(i + 7)]))
-		i += 6
+		lst_of_lsts.append(list(lst[i:(i + 5)]))
+		i += 5
 	
 	#next we are going to find the optimal ordering for each sublist of size 7. 
 	i = 0
@@ -253,20 +253,20 @@ def efficient_cycle_analysis_36(lst, matrix):
 
 
 def efficient_cycle_analysis(lst, matrix):
-	if len(lst) <= 36:
-		return efficient_cycle_analysis_36(lst, matrix)
+	if len(lst) <= 25:
+		return efficient_path_analysis(lst, matrix)
 	
 	else:
 		lst_of_lsts = []
 		i = 0
 		
 		while i < len(lst):
-			lst_of_lsts.append(list(lst[i:(i + 36)]))
-			i += 36
+			lst_of_lsts.append(list(lst[i:(i + 25)]))
+			i += 25
 		
 		i = 0
 		while i < len(lst_of_lsts):
-			lst_of_lsts[i] = efficient_cycle_analysis_36(lst_of_lsts[i], matrix)[1]
+			lst_of_lsts[i] = efficient_cycle_analysis_25(lst_of_lsts[i], matrix)[1]
 			i += 1
 		
 		i = 0

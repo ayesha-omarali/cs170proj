@@ -5,16 +5,12 @@ def solve(file):
         mat = utils.read_matrix(file)
         sccmaker = SCCMaker.SCCMaker(mat)
         sccDag = sccmaker.Kosarajus()
-        print("BRO")
-        #print(sccDag)
         sorted = functions.topological_sort(sccDag)
         solutionlist = []
         if(sorted is None):
             sorted = sccDag
         for s in sorted:
-            #print(s)
-            ordering = functions.efficient_cycle_analysis(s, mat)[1]
-            #print(ordering)
+            ordering = functions.efficient_cycle_main(s, mat)[1]
             solutionlist.extend(ordering)
         filenum = file[:-3]
         solname='solcheck'
@@ -37,7 +33,7 @@ def solutions():
     for f in files:
         if f.endswith('.in'):
             try:
-                (stringsol, scorestring) = solve(os.path.join(instancedir,f))
+                (stringsol, scorestrin) = solve(os.path.join(instancedir,f))
                 filenum = f[:-3]
                 score=float(scorestring[18:])
                 bestfiles[int(filenum)] = stringsol
