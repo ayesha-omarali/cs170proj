@@ -287,17 +287,17 @@ def efficient_cycle_analysis(lst, matrix):
 		if l > max_count:
 			return reverse_ordering
 
-		print(str(max_ordering) + ", " + str(max_count))
+		print(str(max_count))
 		return [max_count, max_ordering]
 
 def efficient_cycle_main(lst, matrix):
 	s = list(lst)
 	max_ordering = lst
 	max_count = 0
-	for(i in range(0, 100)):
-		a = efficient_cycle_analysis(s)
+	for i in range(0, 100):
+		a = efficient_cycle_analysis(s, matrix)
 		if(a[0] > max_count):
 			max_ordering = a[1]
 			max_count = a[0]
 		random.shuffle(s)
-	return [max_count, max_ordering]		
+	return [max_count, max_ordering]
