@@ -191,19 +191,18 @@ def all_orderings(lst):
 
 # Works efficiently for up to 7 vertices
 def brute_force_paths(lst, matrix):
-	if len(lst) <= 8:
-		a_o = all_orderings(lst)
-		max_count = 0
-		max_ordering = a_o[0]
-	
-		for ordering in a_o:
-			count = count_forward_paths(ordering, matrix)
-	
-			if count > max_count:
-				max_count = count
-				max_ordering = ordering
-	
-		return [max_count, max_ordering]
+	a_o = all_orderings(lst)
+	max_count = 0
+	max_ordering = a_o[0]
+
+	for ordering in a_o:
+		count = count_forward_paths(ordering, matrix)
+
+		if count > max_count:
+			max_count = count
+			max_ordering = ordering
+
+	return [max_count, max_ordering]
 
 #gives an approximation of the most efficient paths
 #for lists of vertex orderings from sizes 7 to 49
@@ -288,6 +287,8 @@ def efficient_cycle_analysis(lst, matrix):
 		return [max_count, max_ordering]
 
 def efficient_cycle_main(lst, matrix):
+	if(len(matrix) < 10):
+		return brute_force_paths(lst, matrix)[1]
 	s = list(lst)
 	max_ordering = lst
 	max_count = 0

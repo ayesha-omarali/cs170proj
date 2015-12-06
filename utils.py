@@ -10,3 +10,12 @@ def read_matrix(filename):
            i = i[:-1]
        t.append(list(map(int, i.split(' '))))
     return t
+
+def read_score(filename):
+  f = open(filename, 'r')
+  lst = f.read().splitlines()
+  new_lst = [float(x) for x in lst]
+  y = sum(new_lst)/(len(new_lst))
+  return y
+
+print(read_score('scoreapollo.out'))

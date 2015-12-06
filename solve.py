@@ -51,7 +51,7 @@ def solve(filename):
             top_score_sol = stringsol
             top_score = score
         final_scorestring = "solution value is %.4f" % top_score
-        # print((top_score_sol, final_scorestring))
+        print((top_score_sol, final_scorestring))
         return (top_score_sol, final_scorestring)
 
         # print("HELP")
@@ -70,8 +70,8 @@ def solutions():
     notopened = []
     bestfiles = ['0']*len(files)
     bestfiles_score = ['0']*len(files)
-    for i in range(1, 5):
-        f = str(i) + '.in'
+    for f in files:
+        # f = str(i) + '.in'
         if f.endswith('.in'):
             try:
                 intermediate = solve(os.path.join(instancedir,f))
