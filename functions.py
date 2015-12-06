@@ -245,7 +245,7 @@ def efficient_cycle_analysis_49(lst, matrix):
 	#check if the reverse has a better ordering
 	if l > max_count:
 		return reverse_ordering
-
+	print(str(max_ordering) + ", " + str(max_count))
 	return max_ordering
 
 
@@ -271,7 +271,7 @@ def efficient_cycle_analysis(lst, matrix):
 			i += 1
 		
 		i = 0
-		orders = all_orderings(lst_of_lists, matrix)
+		orders = all_orderings(lst_of_lsts)
 		max_ordering = flatten(orders[0])
 		max_count = 0
 		for order in orders:
@@ -288,6 +288,7 @@ def efficient_cycle_analysis(lst, matrix):
 		if l > max_count:
 			return reverse_ordering
 			
+		print(str(max_ordering) + ", " + str(max_count))
 		return max_ordering
 
 							
