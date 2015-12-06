@@ -1,21 +1,65 @@
-import utils, SCCMaker, functions, scorer_single
+import utils, functions, scorer_single, random
 
-def solve(file):
-    if file.endswith('.in'):
-        mat = utils.read_matrix(file)
-        ordering = functions.efficient_cycle_main(range(0, len(mat)), mat)[1]
-        print("ORDERING")
-        print(ordering)
-        print("END ORDERING")
+def solve(filename):
+    if filename.endswith('.in'):
+        print(filename)
+        mat = utils.read_matrix(filename)
+        ordering = [x + 1 for x in functions.efficient_cycle_main(range(0, len(mat)), mat)[1]]
         solutionlist= ordering
-        filenum = file[:-3]
-        solname ='solcheck'
+        # filenum = file[:-3]
+        # solname ='solcheck'
+        # sol = open(solname, 'wb')
+        # stringsol = ' '.join(map(str,solutionlist))
+        # a = stringsol.encode('utf-8')
+        # sol.write(a)
+        # sol.close()
+
+        filenum = filename[:-3]
+        randlist = range(1, len(mat)+1)
+                # Try random list 100 times
+        top_score = -1
+        top_score_sol=''
+        randsol=[]
+        for i in range(150):
+            randsol=random.sample(randlist,len(randlist))
+            #reverselist = list(reversed(randlist))
+            solname='solcheck'
+            sol = open(solname, 'wb')
+            stringsol = ' '.join(map(str,randsol))
+            sol.write(stringsol)
+            sol.close()
+            scorestring = scorer_single.processTest(filename, solname)
+            score=float(scorestring[18:])
+            if score<0.2:
+                randsol=list(reversed(randsol))
+                score=1-score
+                stringsol = ' '.join(map(str,randsol))
+            if score>top_score:
+                top_score=score
+                top_score_sol = stringsol
+            # Save time
+            if score>0.92:
+                break
+        solname='solcheck'
         sol = open(solname, 'wb')
         stringsol = ' '.join(map(str,solutionlist))
-        print(stringsol)
         sol.write(stringsol.encode('utf-8'))
         sol.close()
-        scorestring = scorer_single.processTest(file, solname)
+        scorestring = scorer_single.processTest(filename, solname) #messes up at this line
+        score=float(scorestring[18:])
+        if(score > top_score):
+            top_score_sol = stringsol
+            top_score = score
+        final_scorestring = "solution value is %.4f" % top_score
+        # print((top_score_sol, final_scorestring))
+        return (top_score_sol, final_scorestring)
+
+        # print("HELP")
+        # print(stringsol)
+        # scorestring = scorer_single.processTest(file, solname)
+        # print("HELP ME2")
+        
+        # return (stringsol, scorestring)
         
 
 import os
@@ -26,11 +70,12 @@ def solutions():
     notopened = []
     bestfiles = ['0']*len(files)
     bestfiles_score = ['0']*len(files)
-    for i in range(20):
-        f = str(i) + ".in"
+    for i in range(1, 5):
+        f = str(i) + '.in'
         if f.endswith('.in'):
             try:
-                (stringsol, scorestrin) = solve(os.path.join(instancedir,f))
+                intermediate = solve(os.path.join(instancedir,f))
+                (stringsol, scorestring) = intermediate
                 filenum = f[:-3]
                 score=float(scorestring[18:])
                 bestfiles[int(filenum)] = stringsol

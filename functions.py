@@ -213,8 +213,8 @@ def efficient_cycle_analysis_25(lst, matrix):
 	
 	i = 0
 	while i < len(lst):
-		lst_of_lsts.append(list(lst[i:(i + 5)]))
-		i += 5
+		lst_of_lsts.append(list(lst[i:(i + 6)]))
+		i += 6
 	
 	#next we are going to find the optimal ordering for each sublist of size 7. 
 	i = 0
@@ -291,7 +291,7 @@ def efficient_cycle_main(lst, matrix):
 	s = list(lst)
 	max_ordering = lst
 	max_count = 0
-	for i in range(0, 9):
+	for i in range(0, 10):
 		a = efficient_cycle_analysis(s, matrix)
 		if(a[0] > max_count):
 			max_ordering = a[1]
