@@ -4,10 +4,13 @@ def testSCCMaker():
     workableStuff = SCCMaker(matrix)
     print(workableStuff.numCycles())
 
+import operator 
+
 class SCCMaker:
 
     def __init__(self, Matrix):
         self.Matrix = Matrix
+        self.nodesVisited = []
 
 
     # returns a new matrix with all pointers pointing from j to i
@@ -41,9 +44,9 @@ class SCCMaker:
         postOrder = []
 
         def DFS(v):
-            nonlocal nodesVisited
-            nonlocal nodesToVisit
-            nonlocal postOrder
+            #nonlocal nodesVisited
+            #nonlocal nodesToVisit
+            #nonlocal postOrder
             
             #nodesToVisit.remove(v)
             nodesVisited.add(v)
@@ -66,7 +69,7 @@ class SCCMaker:
         postOrder = list(reversed(postOrder))
         
         def DFS(v, lst):
-            nonlocal postOrder
+            #nonlocal postOrder
             #print(postOrder)
             #print(v)
             
@@ -99,5 +102,60 @@ class SCCMaker:
                 if move in queue:
                     counter += self.cycleHelper(move, lst, queue)
             return counter
+          
+    def number_of_moves(self, i):
+        possibleMoves = 0
+        for j in range(len(self.Matrix[i])):
+            if self.legalMove(i, j):
+                possibleMoves += 1
+        return possibleMoves
+        
+    def sort_by_moves(self, moves):
+        mat_ordered = {}
+        # Fill a dictionary with the total number of outgoing edges 
+        for i in moves:
+            mat_ordered[i] = self.number_of_moves(i)
+        sorted_x = sorted(mat_ordered.items(), key=operator.itemgetter(1))
+        sorted_list = [i[0] for i in list(reversed(sorted_x))]
+        # Return list of vertices, sorted by most outgoing edges
+        return sorted_list
+        
+    def removeAllEdges(self, i):
+        # Remove outgoing edges from id
+        for j in range(len(self.Matrix[i])):
+            self.Matrix[i][j] = 0
+        for j in range(len(self.Matrix)):
+            self.Matrix[j][i] = 0
+            
+    def DFS_greedy(self, v):
+        #nodesToVisit.remove(v)
+        self.nodesVisited.append(v)
+        #print self.nodesVisited
+        #print "Inner dfs"
+        moves = self.getAllLegalMoves(v)
+        #self.removeAllEdges(v)
+
+        for move in self.sort_by_moves(moves):
+            if move not in self.nodesVisited:
+                #print move
+                #print "Do dfs"
+                self.DFS_greedy(move)
+                    
+    def do_dfs(self):
+        allNodes = [i for i in range(len(self.Matrix))]
+        sortAllNode = self.sort_by_moves(allNodes)
+        nodesToVisit = list(reversed(sortAllNode))
+        while nodesToVisit:
+            v = nodesToVisit.pop()
+            #print self.nodesVisited
+            if v not in self.nodesVisited:
+                #print v 
+                #print "visiting"
+                self.DFS_greedy(v)
+        self.nodesVisited = [i+1 for i in self.nodesVisited]
+        #print 'final'
+        return self.nodesVisited
+        
+        
 
 
