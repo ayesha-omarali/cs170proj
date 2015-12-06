@@ -288,7 +288,6 @@ def efficient_cycle_analysis(lst, matrix):
 
 def efficient_cycle_main(lst, matrix):
 	if(len(matrix) < 9):
-		print("cp1.5")
 		return brute_force_paths(lst, matrix)
 	s = list(lst)
 	max_ordering = lst
