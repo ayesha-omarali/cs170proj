@@ -91,7 +91,7 @@ def solve_all_files():
 #print solve('instances/613.in')
 
 def get_solutions(mat):
-    ln = len(mat)+1
+    ln = len(mat)
     scorelist = ['0']*ln
     for i in range(len(mat)):
         solname='soltrywa'
@@ -105,6 +105,14 @@ def get_solutions(mat):
             scorelist[i] = str(score)
         except ZeroDivisionError:
             scorelist[i] = '0'
+        except: 
+            scorelist[i] = '0'
+    finalsol_score = open('test_scores.out', 'wb')
+    newline = "\n"
+    for b in scorelist:
+        finalsol_score.write(b.encode('utf-8'))
+        finalsol_score.write(newline.encode('utf-8'))
+    finalsol_score.close()
     return scorelist
         
 
@@ -116,14 +124,13 @@ def merge_files():
     newsol = f2.read().splitlines()
     new_scores = f3.read().splitlines()
     old_scores = get_solutions(oldsol)
-    print old_scores[107]
-    print old_scores[204]
-    print old_scores[441]
     
-    ln = len(oldsol)+1
+    ln = len(oldsol)
     bestsol = ['0']*ln
     bestscore = ['0']*ln
     count = 0.0
+    old_count = 0.0
+    new_count = 0.0
     for i in range(len(oldsol)):
         if new_scores[i] > old_scores[i]:
             bestsol[i] = newsol[i]
@@ -132,8 +139,14 @@ def merge_files():
             bestsol[i] = oldsol[i]
             bestscore[i] = old_scores[i]
         count += float(bestscore[i])
-    average_count = (count+ float(old_scores[107]) + float(old_scores[204]) + float(old_scores[441]))/len(oldsol)
-    """finalsol = open('solutions_merged.out', 'wb')
+        old_count += float(old_scores[i])
+        new_count += float(new_scores[i])
+    average_count = count/len(oldsol)
+    old_count = old_count/len(oldsol)
+    new_count = new_count/len(oldsol)
+    print old_count
+    print new_count
+    finalsol = open('solutions_merged.out', 'wb')
     newline = "\n"
     for b in bestsol:
         finalsol.write(b.encode('utf-8'))
@@ -143,7 +156,10 @@ def merge_files():
     for b in bestscore:
         finalsol_score.write(b.encode('utf-8'))
         finalsol_score.write(newline.encode('utf-8'))
-    finalsol_score.close()"""
+    finalsol_score.close()
     return average_count
     
-print merge_files()
+#print merge_files()
+f2 = open('solutions_greedy.out', 'rb')
+newsol = f2.read().splitlines()
+print get_solutions(newsol)
